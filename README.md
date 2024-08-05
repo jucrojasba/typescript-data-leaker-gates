@@ -10,7 +10,7 @@ To get started with the project, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/jucrojasba/typescript-read-file.git
+   https://github.com/jucrojasba/typescript-data-leaker-gates.git
 
 2. **Install dependencies:**
    ```bash
