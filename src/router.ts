@@ -1,8 +1,7 @@
 import { loader } from "./components/loader/loader.component";
-import { UserController } from "./controllers/user.controller";
 import { routes } from "./helpers/routes";
 import { Routes } from "./models/routes.model";
-import { RequestAuth } from "./models/user.model";
+
 
 export async function Router(): Promise<void> {
   const path: string = window.location.pathname;
@@ -13,18 +12,7 @@ export async function Router(): Promise<void> {
     (r) => r.path === path
   );
   const token: string | null = sessionStorage.getItem("token");
-  const email: string | null = sessionStorage.getItem("email");
-  const password: string = "*****";
-  const data: RequestAuth = {
-    email,
-    password,
-  };
-
-  // Instanciar User para acceder al método check authentication
-  const user = new UserController("/login");
-
-  // Probar token
-  const responseCheckToken = token ? await user.checkToken(token, data) : false;
+  
 
   // Acceso a la ruta principal si no hay token
   if (path === "/" && !token) {
@@ -33,7 +21,7 @@ export async function Router(): Promise<void> {
   }
 
   // Si accede a la ruta principal o a una vista publica y hay token
-  if ((path === "/"|| publicRoute) && responseCheckToken) {
+  if ((path === "/"|| publicRoute) && token) {
     navigateTo("/home");
     return;
   }
@@ -46,7 +34,7 @@ export async function Router(): Promise<void> {
 
   // Manejo de rutas privadas
   if (privateRoute) {
-    if (responseCheckToken) {
+    if (token) {
       privateRoute.view();
       return;
     } else {

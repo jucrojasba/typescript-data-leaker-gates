@@ -1,0 +1,18 @@
+#edit-button{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: absolute;
+    bottom: 1px;
+    right: 50px;
+}
+#edit-button:hover{
+    transform: scale(1.1);
+}
+
+#edit-button-icon{
+    content: url('../../assets/icons/edit-icon.png');
+    width: 40px;
+    height: 40px;
+}

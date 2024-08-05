@@ -1,0 +1,18 @@
+#delete-button{
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+}
+#delete-button:hover{
+    transform: scale(1.1);
+}
+
+#delete-button-icon{
+    content: url('../../assets/icons/delete-icon.png');
+    width: 40px;
+    height: 40px;
+  }
