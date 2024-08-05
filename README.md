@@ -11,7 +11,6 @@ To get started with the project, follow these steps:
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/jucrojasba/typescript-read-file.git
-   ```
 
 2. **Install dependencies:**
    ```bash
