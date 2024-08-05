@@ -1,0 +1,80 @@
+.home-container{
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+    background: linear-gradient(rgba(255, 255, 255, 0.527), rgba(255, 255, 255, 0.527)),url('../../../assets/images/home-banner.webp');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 100px;
+}
+
+.home-container>h1{
+    font-size: 250%;
+    color: var(--second-color)
+}
+.home-container>#paragraph-no-post{
+    font-weight: bold;
+}
+
+.post-container{
+    width: 100vw;
+    height: auto;
+    padding: var(--spacing-4);
+    display: flex;
+    flex-wrap: wrap;
+    gap:var(--spacing-3);
+    justify-content: center;
+    align-items: center;
+}
+
+/* Card Styles */
+.post-card{
+    width: 320px;
+    height: 250px;
+    padding: var(--spacing-3);
+    background-color: rgba(121, 139, 148, 0.199);
+    border-radius: var(--spacing-4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: none;
+    transition: transform 0.5s, box-shadow 0.5s;
+    position: relative;
+    padding-bottom: var(--spacing-5);
+    text-align: center;
+}
+.post-card:hover{
+    transform: scale(1.02);
+    box-shadow: var(--box-shadow);
+}
+.post-card>h2{
+    color: var(--main-color);
+}
+.post-card>h4{
+    color: var(--third-color);
+}
+.info-container{
+    display: flex;
+    width: 100%;
+    gap: var(--spacing-1);
+    height: fit-content;
+    justify-content: start;
+    align-items: center;
+    border: solid 1px var(--main-color);
+    border-radius: var(--spacing-2);
+}
+.approvalPercentage-container{
+    padding: var(--spacing-2);
+    border-radius: var(--spacing-2) 0 0 var(--spacing-2) ;
+}
+.bottom-card-text{
+    font-size: 80%;
+    position: absolute;
+    bottom: 2px;
+    left: 8px;
+}
+

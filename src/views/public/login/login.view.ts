@@ -65,6 +65,7 @@ export function loginView(): void {
         loader(true);
         const responseLogin = await userLogin.postLogin(dataToLogin);
         sessionStorage.setItem("token", responseLogin.message);
+        sessionStorage.setItem("x-user-email",$inputEmail.value);
         loader(false);
         navigateTo("/home");
       } catch (error) {

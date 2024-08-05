@@ -1,11 +1,14 @@
 import './edit-button.component.css'
-export function createEditButton(editId: string,userCountry:string,userReason:string): HTMLButtonElement {
+export function createEditButton(idPost:string, title:string,body:string,postUrl:string,creator:string,platform:string): HTMLButtonElement {
     //HTML Elements
     const $button = document.createElement('button');
     $button.id = 'edit-button';
-    $button.setAttribute('editId', editId);
-    $button.setAttribute('userCountry', userCountry);
-    $button.setAttribute('userReason', userReason);
+    $button.setAttribute('idPost', idPost);
+    $button.setAttribute('title', title);
+    $button.setAttribute('body', body);
+    $button.setAttribute('postUrl', postUrl);
+    $button.setAttribute('platform', platform);
+    
     
     const $img = document.createElement('img');
     $img.id='edit-button-icon'
