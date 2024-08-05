@@ -1,7 +1,7 @@
 import { PostController } from "../../controllers/post.controllers";
 import { getTodayDate } from "../../helpers/getTodayDate";
 import { capitalizeFirstLetter } from "../../helpers/string-helpers";
-import { CreateCity, RequestCreatePost, ResponseCreateCity } from "../../models/post.model";
+import { RequestCreatePost, ResponseCreatePost } from "../../models/post.model";
 import { loader } from "../loader/loader.component";
 import { showModal } from "../modals/modal.component";
 import "./create-post.component.css";
@@ -68,22 +68,25 @@ export function createPost() {
       const $labelEstimatedDate = document.createElement('label') as HTMLLabelElement;
       $labelEstimatedDate.innerText='Estimated Publication Date';
 
-      const $status = document.createElement('input');
-      $status.type = 'string';
-      $status.name = 'status';
-      $status.id = 'status';
-      $status.placeholder = 'Enter a status';
-      $status.maxLength = 20;
-
-      const $platform = document.createElement('input');
-      $platform.type = 'text';
+      const $platform = document.createElement('select');
       $platform.name = 'platform';
       $platform.id = 'platform';
-      $platform.placeholder = 'Enter a platform to post';
-      $platform.maxLength = 20;
+      
+      const $optionFacebook = document.createElement('option');
+      $optionFacebook.value = 'Facebook';
+      $optionFacebook.innerText='Facebook';
+
+      const $optionInstagram = document.createElement('option');
+      $optionInstagram.value = 'Instagram';
+      $optionInstagram.innerText='Instagram';
+
+      const $optionX = document.createElement('option');
+      $optionX.value = 'X';
+      $optionX.innerText='X';
+
 
       const $postUrl = document.createElement('input');
-      $postUrl.type = 'string';
+      $postUrl.type = 'url';
       $postUrl.name = 'postUrl';
       $postUrl.id = 'postUrl';
       $postUrl.placeholder = 'Enter a post url';
@@ -112,8 +115,10 @@ export function createPost() {
       $createForm.appendChild($creator);
       $createForm.appendChild($labelEstimatedDate);
       $createForm.appendChild($estimatedDate);
-      $createForm.appendChild($status);
       $createForm.appendChild($platform);
+      $platform.appendChild($optionFacebook);
+      $platform.appendChild($optionInstagram);
+      $platform.appendChild($optionX);
       $createForm.appendChild($postUrl);
       $createForm.appendChild($actionButtons);
   
@@ -142,28 +147,29 @@ export function createPost() {
 
     $createForm.addEventListener('submit',async(e) => {
         e.preventDefault();
-        if($title.value && $body.value && $platform.value && $creator.value && $estimatedDate.value && $status.value && $postUrl.value){
+        if($title.value && $body.value && $platform.value && $creator.value && $estimatedDate.value && $postUrl.value){
         //Data to create city
         const dataToCreate:RequestCreatePost={
           title:`${$title.value}`,
           body:`${$body.value}`,
-          creationDate:new Date(),
+          creationDate:getTodayDate(new Date()),
           creator:`${$creator.value}`,
-          estimatedPublicationDate: new Date($estimatedDate.value),
-          status:`${$status.value}`
+          estimatedPublicationDate: getTodayDate(new Date($estimatedDate.value)),
+          status:`pending`,
           approvalPercentage:8,
-          corrections:`${holi}`
-          platform:                  string;
-          postUrl:                  string;
-          multimediaUrl:            string;
+          corrections:`${'holi'}`,
+          platform:`${$platform.value}`,
+          postUrl:`${$postUrl.value}`,
+          multimediaUrl:`${$postUrl.value}`
         }
+        console.log(dataToCreate);
         try {
             loader(true);
-            const responsePost:ResponseCreateCity = await city.createCity(dataToCreate);
+            const responsePost:ResponseCreatePost = await post.createPost(dataToCreate);
             loader(false);
             if(responsePost){
             window.location.reload();
-            showModal(`${capitalizeFirstLetter(responsePost.info.name)} created successfully`);
+            showModal(`${capitalizeFirstLetter(responsePost.title)} created successfully`);
             }
         } catch (error) {
             loader(false);

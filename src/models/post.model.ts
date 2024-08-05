@@ -17,9 +17,9 @@ export interface ResponseGetPosts {
 export interface RequestCreatePost {
     title:                    string;
     body:                     string;
-    creationDate:             Date;
+    creationDate:             String;
     creator:                  string;
-    estimatedPublicationDate: Date;
+    estimatedPublicationDate: String;
     status:                   string;
     approvalPercentage:       number;
     corrections:              string;

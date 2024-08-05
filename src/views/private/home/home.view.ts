@@ -41,8 +41,11 @@ export function homeView(){
 
     document.addEventListener('DOMContentLoaded',async()=>{
     //Get posts
+    loader(true);
     const userPosts:ResponseGetPosts[] = await posts.getPosts();
     console.log(userPosts);
+    loader(false);
+    
     //First Loaded Post
     if(userPosts.length === 0){
         $homeContainer.appendChild($paragraphNoPost);
