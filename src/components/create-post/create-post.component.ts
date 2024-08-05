@@ -1,7 +1,9 @@
 import { PostController } from "../../controllers/post.controllers";
+import { SpellingController } from "../../controllers/spelling.controller";
 import { getTodayDate } from "../../helpers/getTodayDate";
 import { capitalizeFirstLetter } from "../../helpers/string-helpers";
 import { RequestCreatePost, ResponseCreatePost } from "../../models/post.model";
+import { RequestSpelling } from "../../models/spelling";
 import { loader } from "../loader/loader.component";
 import { showModal } from "../modals/modal.component";
 import "./create-post.component.css";
@@ -144,10 +146,17 @@ export function createPost() {
     //Logic to Post Request
     //Instantiate title
     const post:PostController=new PostController();
+    const spelling:SpellingController= new SpellingController();
 
     $createForm.addEventListener('submit',async(e) => {
         e.preventDefault();
         if($title.value && $body.value && $platform.value && $creator.value && $estimatedDate.value && $postUrl.value){
+        //Data to validate progress
+        try {
+        const errorSpelling = await spelling.errors($body.value);
+        let progres= (errorSpelling/$body.value.split(' ').length)*100;
+        errorSpelling ==0? progres=100:progres= (errorSpelling/$body.value.split(' ').length)*100;
+        console.log(errorSpelling);
         //Data to create city
         const dataToCreate:RequestCreatePost={
           title:`${$title.value}`,
@@ -156,8 +165,8 @@ export function createPost() {
           creator:`${$creator.value}`,
           estimatedPublicationDate: getTodayDate(new Date($estimatedDate.value)),
           status:`pending`,
-          approvalPercentage:8,
-          corrections:`${'holi'}`,
+          approvalPercentage:progres,
+          corrections:`${errorSpelling}`,
           platform:`${$platform.value}`,
           postUrl:`${$postUrl.value}`,
           multimediaUrl:`${$postUrl.value}`
@@ -175,6 +184,10 @@ export function createPost() {
             loader(false);
             showModal(`${error}`);
         }
+        } catch (error) {
+          showModal(`${error}`)
+        }
+        
         }else{
         showModal("Please fill in all fields");
         throw new Error("Please fill in all fields");
