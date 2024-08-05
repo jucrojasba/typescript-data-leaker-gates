@@ -13,7 +13,9 @@ export interface ResponseGetPosts {
     multimediaUrl:            string;
     deletedAt:                null;
 }
-
+export interface ResponseDeletePosts {
+    message:string
+}
 export interface RequestCreatePost {
     title:                    string;
     body:                     string;

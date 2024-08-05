@@ -8,6 +8,8 @@ import { getTodayDate } from '../../../helpers/getTodayDate';
 import { createEditButton } from '../../../components/editButton/edit-button.component';
 import { showModal } from "../../../components/modals/modal.component.ts";
 import { editPost } from '../../../components/update-post/update-city.component';
+import { createDeleteButton } from '../../../components/deleteButton/delete-button.component.ts';
+import { showConfirmation } from "../../../components/confirmations/confirmation.component.ts";
 export function homeView(){
     //Erase last page viewed & load navbar
     loader(true);
@@ -82,6 +84,7 @@ export function homeView(){
     $infoContainer.appendChild($estimatedPublicationDate);
     $approvalPercentageContainer.appendChild($approvalPercentage);
     $postCard.appendChild($createdAt);
+    $postCard.appendChild(createDeleteButton(String(post.id)));
     $postCard.appendChild(createEditButton(String(post.id),post.title,post.body,post.postUrl,String(post.postByUser),post.platform));
 
     //Content
@@ -113,6 +116,29 @@ export function homeView(){
         });
       });
 
+      //Delete Post
+    document.querySelectorAll('#delete-button').forEach(button=>{
+      button.addEventListener('click',async()=>{
+        const postId = button.getAttribute('deleteid');
+        if(postId){
+          const userResponse = true;
+
+          if(userResponse){
+            try {
+              loader(true);
+              posts.deletePost(postId);
+              loader(false);
+              showModal(`This post was deleted succesfully`);
+              window.location.reload();
+            } catch (error) {
+              showModal(`${error}`)
+            }
+          }
+        }else{
+          showModal('Post was not founded')
+        }
+      })
+    })
     //End of all async events
     });
     }

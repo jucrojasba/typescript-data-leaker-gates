@@ -42,23 +42,28 @@ export function showConfirmation(message: string): Promise<boolean> {
 
       $yesButton.onclick = () => {
         $modalContainer.style.display = "none";
+        // window.location.reload();
         resolve(true);
+        
       };
 
       $noButton.onclick = () => {
         $modalContainer.style.display = "none";
         resolve(false);
+        // window.location.reload();
       };
 
       $closeButton.onclick = () => {
         $modalContainer.style.display = "none";
         resolve(false);
+        // window.location.reload();
       };
 
       window.onclick = (event) => {
         if (event.target === $modalContainer) {
           $modalContainer.style.display = "none";
           resolve(false);
+          // window.location.reload();
         }
       };
     }

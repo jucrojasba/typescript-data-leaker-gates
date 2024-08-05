@@ -1,4 +1,4 @@
-import { RequestCreatePost, ResponseGetPosts, ResponseCreatePost, CreateCity, ResponseWeather, RequestUpdatePost } from '../models/post.model';
+import { RequestCreatePost, ResponseGetPosts, ResponseCreatePost, CreateCity, ResponseWeather, RequestUpdatePost, ResponseDeletePosts } from '../models/post.model';
 
 export class PostController{
     
@@ -57,17 +57,26 @@ export class PostController{
     }
 
     // Delete Post
-    deleteCity(name: string): boolean {
-        try {
-            const cities = JSON.parse(localStorage.getItem('cities') || '[]');
-            
-            const updatedCities = cities.filter((city: { info: { name: string } }) => city.info.name.toLowerCase() !== name.toLowerCase());
-
-            localStorage.setItem('cities', JSON.stringify(updatedCities));
-
-            return cities.length !== updatedCities.length;
-        } catch (error) {
-            throw new Error(`Error al eliminar la ciudad ${error}`);
+    async deletePost(id:string): Promise<ResponseDeletePosts> {
+        //Data to show post by user Id
+        const userLogedEmail = sessionStorage.getItem('x-user-email');
+        const domain: string = "https://api-posts.codificando.xyz/posts/";
+        const params:string =`${id}`
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          "x-user-email":`${userLogedEmail}`,
+        };
+        const reqOptions: RequestInit = {
+          method: "DELETE",
+          headers: headers,
+        };
+        const url = domain + params;
+        const result: Response = await fetch(url, reqOptions);
+        if (result.status===200) {
+          const responseBodyPosts: ResponseDeletePosts = await result.json();
+          return responseBodyPosts;
+        } else {
+          throw new Error(`Delete Error ${result.status}`);
         }
     }
 
