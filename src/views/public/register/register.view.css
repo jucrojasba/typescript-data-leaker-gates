@@ -1,0 +1,73 @@
+.root-container-register {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.171)),url("../../../assets/images/auth-baner.jpg");
+  background-size: cover;
+}
+
+.form-register {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  justify-content: center;
+  align-items: center;
+  padding: var(--spacing-5);
+  border-radius: var(--spacing-2);
+  border: solid 1px var(--main-color);
+  background-color: rgba(255, 255, 255, 0.144);
+}
+.form-register > h1 {
+  color: var(--main-color);
+  font-size: 300%;
+}
+.form-register > input {
+  width: 100%;
+  padding: var(--spacing-3);
+  border-radius: var(--spacing-2);
+  border: none;
+  outline: none;
+  background-color: white;
+  color: var(--main-color);
+}
+.action-buttons {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+#login-button {
+  background-color: rgba(255, 255, 255, 0.158);
+  color: var(--main-color);
+  padding: var(--spacing-2);
+  border-radius: var(--spacing-2);
+  border: solid 1px var(--main-color);
+  transition: color 0.9s, background-color 0.9s;
+  cursor: pointer;
+}
+#login-button:hover {
+  scale: 1.02;
+  background-color: var(--third-color);
+}
+#register-button {
+  background-color: rgba(255, 255, 255, 0.158);
+  color: var(--main-color);
+  padding: var(--spacing-2);
+  border-radius: var(--spacing-2);
+  border: solid 1px var(--main-color);
+  transition: color 0.9s, background-color 0.9s;
+  cursor: pointer;
+}
+#register-button:hover {
+  scale: 1.02;
+  background-color: var(--third-color);
+}
+#welcome-paragraph{
+  width: 80%;
+  text-align: center;
+  margin:0;
+  padding: 0;
+  color: var(--second-color);
+}
