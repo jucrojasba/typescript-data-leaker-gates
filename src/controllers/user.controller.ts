@@ -65,7 +65,7 @@ export class UserController {
       method: "POST",
       headers: headers,
     };
-    const url = domain + this.endpointLogin;
+    const url = domain + '/auth/logout';
     const result: Response = await fetch(url, reqOptions);
     if (result.status===201) {
       const responseBodyLogin: ResponseAuth = await result.json();

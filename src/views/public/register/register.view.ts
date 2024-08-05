@@ -78,6 +78,17 @@ export function registerView(): void {
         try {
           loader(true);
           const responseRegister = await userLogin.postRegister(dataToRegister);
+          
+          //Logic to save user id
+          const dataToUserId ={
+            email: $inputEmail.value,
+            id: responseRegister.id,
+          }
+          const userIds = JSON.parse(localStorage.getItem('userIds') || '[]');
+          userIds.push(dataToUserId);
+          localStorage.setItem('userIds', JSON.stringify(userIds));
+          //End save userId
+
           loader(false);
           const response = await showConfirmation(
             `User registered sucessfully, \nDo you want to Login?`
@@ -85,7 +96,6 @@ export function registerView(): void {
           if (response.valueOf()) {
             navigateTo("/login");
           }
-          console.log(responseRegister.id);
         } catch (error) {
           loader(false);
           showModal(`${error}`);
