@@ -5,6 +5,9 @@ import { ResponseGetPosts } from '../../../models/post.model';
 import {capitalizeFirstLetter} from '../../../helpers/string-helpers';
 import './home.view.css'
 import { getTodayDate } from '../../../helpers/getTodayDate';
+import { createEditButton } from '../../../components/editButton/edit-button.component';
+import { showModal } from "../../../components/modals/modal.component.ts";
+import { editPost } from '../../../components/update-post/update-city.component';
 export function homeView(){
     //Erase last page viewed & load navbar
     loader(true);
@@ -20,7 +23,7 @@ export function homeView(){
     const $postContainer = document.createElement('div') as HTMLDivElement;
     
     //Content
-    $homeTitle.innerText='Post, we check it for you!'
+    $homeTitle.innerText='Your Post, we check it for you!'
     $paragraphNoPost.innerText='First, create a new post in upper bar.'
 
 
@@ -79,8 +82,7 @@ export function homeView(){
     $infoContainer.appendChild($estimatedPublicationDate);
     $approvalPercentageContainer.appendChild($approvalPercentage);
     $postCard.appendChild($createdAt);
-    // $postCard.appendChild(createDeleteButton(city.info.name));
-    // $postCard.appendChild(createEditButton(city.info.name, city.info.country,city.info.reason));
+    $postCard.appendChild(createEditButton(String(post.id),post.title,post.body,post.postUrl,String(post.postByUser),post.platform));
 
     //Content
     $title.innerText= `${capitalizeFirstLetter(post.title)}`;
@@ -92,6 +94,24 @@ export function homeView(){
     //Logic for color in div progress
     $approvalPercentageContainer.style.backgroundColor=`${posts.colorProgress(post.approvalPercentage)}`;
     
+    //Update City
+    document.querySelectorAll('#edit-button').forEach(edit=>{
+        edit.addEventListener('click',async()=>{
+          //Tomar parametros para mostrat modal de editar
+          const idPost = edit.getAttribute('idPost');
+          const title = edit.getAttribute('title');
+          const body = edit.getAttribute('body');
+          const postUrl = edit.getAttribute('postUrl');
+          const platform = edit.getAttribute('platform');
+
+          if(idPost && title && body && postUrl && platform){
+            editPost(idPost,title,body,postUrl,platform);
+            }
+          else{
+            showModal('Post was not founded');
+          }
+        });
+      });
 
     //End of all async events
     });

@@ -3,7 +3,6 @@ import { SpellingController } from "../../controllers/spelling.controller";
 import { getTodayDate } from "../../helpers/getTodayDate";
 import { capitalizeFirstLetter } from "../../helpers/string-helpers";
 import { RequestCreatePost, ResponseCreatePost } from "../../models/post.model";
-import { RequestSpelling } from "../../models/spelling";
 import { loader } from "../loader/loader.component";
 import { showModal } from "../modals/modal.component";
 import "./create-post.component.css";
@@ -156,7 +155,6 @@ export function createPost() {
         const errorSpelling = await spelling.errors($body.value);
         let progres= (errorSpelling/$body.value.split(' ').length)*100;
         errorSpelling ==0? progres=100:progres= (errorSpelling/$body.value.split(' ').length)*100;
-        console.log(errorSpelling);
         //Data to create city
         const dataToCreate:RequestCreatePost={
           title:`${$title.value}`,
@@ -171,7 +169,6 @@ export function createPost() {
           postUrl:`${$postUrl.value}`,
           multimediaUrl:`${$postUrl.value}`
         }
-        console.log(dataToCreate);
         try {
             loader(true);
             const responsePost:ResponseCreatePost = await post.createPost(dataToCreate);

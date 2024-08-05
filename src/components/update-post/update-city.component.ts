@@ -1,12 +1,13 @@
-import { CitiesController } from "../../controllers/post.controllers";
+import { PostController } from "../../controllers/post.controllers";
+import { SpellingController } from "../../controllers/spelling.controller";
 import { getTodayDate } from "../../helpers/getTodayDate";
 import { capitalizeFirstLetter } from "../../helpers/string-helpers";
-import { CreateCity } from "../../models/post.model";
+import {  RequestUpdatePost, ResponseCreatePost } from "../../models/post.model";
 import { loader } from "../loader/loader.component";
 import { showModal } from "../modals/modal.component";
 import './update-city.component.css';
 
-export function editCity(userCity:string,userCountry:string,userReason:string) {
+export function editPost(id:string,title:string,body:string,postUrl:string,platform:string) {
     //HTML Element of Modal
     const $modalContainer = document.createElement('div');
     $modalContainer.id = 'modal-container';
@@ -36,104 +37,160 @@ export function editCity(userCity:string,userCountry:string,userReason:string) {
 
     // Logic to put
     if ($modalContainer && $modalMessage && $closeButton) {
-      const $editForm = document.createElement('form');
-      $editForm.id = 'edit-form';
+      const $createForm = document.createElement('form');
+      $createForm.id = 'edit-form';
 
       //HTML Input Elements 
-      const $cityName = document.createElement('input');
-      $cityName.type = 'text';
-      $cityName.name = 'city';
-      $cityName.id = 'city';
-      $cityName.placeholder = `${userCity}`;
-      $cityName.maxLength = 20;
-  
-      const $country = document.createElement('input');
-      $country.type = 'text';
-      $country.name = 'country';
-      $country.id = 'country';
-      $country.placeholder = `${userCountry}`;
-      $country.maxLength = 20;
-  
-      const $reason = document.createElement('input');
-      $reason.type = 'text';
-      $reason.name = 'reason';
-      $reason.id = 'reason';
-      $reason.placeholder = `${userReason}`;
-      $reason.maxLength = 20;
-  
+      const $labeltitle = document.createElement('label') as HTMLLabelElement;
+      $labeltitle.innerText='Update your Title Post';
+      const $title = document.createElement('input');
+      $title.type = 'text';
+      $title.name = 'title';
+      $title.id = 'title';
+      $title.placeholder = `${title}`;
+      $title.maxLength = 20;
+
+      const $labelbody = document.createElement('label') as HTMLLabelElement;
+      $labelbody.innerText='Update your Post';
+      const $body = document.createElement('input');
+      $body.type = 'text';
+      $body.name = 'body';
+      $body.id = 'body';
+      $body.placeholder = `${body}`;
+      $body.maxLength = 200;
+
+      const $estimatedDate = document.createElement('input');
+      $estimatedDate.type = 'date';
+      $estimatedDate.name = 'estimatedDate';
+      $estimatedDate.id = 'estimatedDate';
+      const $labelEstimatedDate = document.createElement('label') as HTMLLabelElement;
+      $labelEstimatedDate.innerText='Estimated Publication Date';
+
+      const $platform = document.createElement('select');
+      $platform.name = 'platform';
+      $platform.id = 'platform';
+      
+      const $optionFacebook = document.createElement('option');
+      $optionFacebook.value = 'Facebook';
+      $optionFacebook.innerText='Facebook';
+
+      const $optionInstagram = document.createElement('option');
+      $optionInstagram.value = 'Instagram';
+      $optionInstagram.innerText='Instagram';
+
+      const $optionX = document.createElement('option');
+      $optionX.value = 'X';
+      $optionX.innerText='X';
+
+      const $labelPostUrl = document.createElement('label') as HTMLLabelElement;
+      $labelPostUrl.innerText='Update your post URL';
+      const $postUrl = document.createElement('input');
+      $postUrl.type = 'url';
+      $postUrl.name = 'postUrl';
+      $postUrl.id = 'postUrl';
+      $postUrl.placeholder = `${postUrl}`;
      
       //Buttons Form
       const $actionButtons = document.createElement('div');
       $actionButtons.className = 'action-buttons-create';
   
-      const $editButton = document.createElement('button');
-      $editButton.type = 'submit';
-      $editButton.id = 'create';
-      $editButton.textContent = 'Edit';
+      const $createButton = document.createElement('button');
+      $createButton.type = 'submit';
+      $createButton.id = 'create';
+      $createButton.textContent = 'Update';
   
       const $cancelButton = document.createElement('button');
       $cancelButton.id = 'cancel';
       $cancelButton.type = 'button';
       $cancelButton.textContent = 'Cancel';
   
-      $actionButtons.appendChild($editButton);
+      $actionButtons.appendChild($createButton);
       $actionButtons.appendChild($cancelButton);
 
 
       //Jerarquia de etiquetas HTML del formulario
-      $editForm.appendChild($cityName);
-      $editForm.appendChild($country);
-      $editForm.appendChild($reason);
-      $editForm.appendChild($actionButtons);
+      $createForm.appendChild($labeltitle);
+      $createForm.appendChild($title);
+      $createForm.appendChild($labelbody);
+      $createForm.appendChild($body);
+      $createForm.appendChild($labelEstimatedDate);
+      $createForm.appendChild($estimatedDate);
+      $createForm.appendChild($platform);
+      $platform.appendChild($optionFacebook);
+      $platform.appendChild($optionInstagram);
+      $platform.appendChild($optionX);
+      $createForm.appendChild($labelPostUrl);
+      $createForm.appendChild($postUrl);
+      $createForm.appendChild($actionButtons);
   
-      $modalMessage.appendChild($editForm);
+      $modalMessage.appendChild($createForm);
     
       //Events
       $modalContainer.style.display = "flex";
   
       $cancelButton.onclick = () => {
         $modalContainer.style.display = "none";
+        window.location.reload();
       };
   
       $closeButton.onclick = () => {
         $modalContainer.style.display = "none";
+        window.location.reload();
       };
   
       window.onclick = (event) => {
         if (event.target === $modalContainer) {
           $modalContainer.style.display = "none";
+          window.location.reload();
         }
       };
 
-    //Logic to Put Request
-    //Instantiate City
-    const city:CitiesController=new CitiesController();
+    //Logic to Post Request
+    //Instantiate title
+    const post:PostController=new PostController();
+    const spelling:SpellingController= new SpellingController();
+    
 
-    $editForm.addEventListener('submit',async(e) => {
+    $createForm.addEventListener('submit',async(e) => {
         e.preventDefault();
-        if($cityName.value || $country.value || $reason.value){
-        //Data to update city
-        const dataToEdit:CreateCity={
-            name:`${$cityName.value?$cityName.value:userCity}`,
-            country: `${$country.value?$country.value:userCountry}`,
-            createdAt: `${getTodayDate()}`,
-            reason:`${$reason.value?$reason.value:userReason}`
+        if($title.value || $body.value || $platform.value  || $estimatedDate.value || $postUrl.value){
+        //Data to validate progress
+        try {
+        const errorSpelling = await spelling.errors($body.value?$body.value:body);
+        let progres= (errorSpelling/$body.value.split(' ').length)*100;
+        errorSpelling ==0? progres=100:progres= (errorSpelling/$body.value.split(' ').length)*100;
+        //Data to create city
+        const dataToCreate:RequestUpdatePost={
+          title:`${$title.value?$title.value:title}`,
+          body:`${$body.value?$body.value:body}`,
+          creationDate:getTodayDate(new Date()),
+          estimatedPublicationDate:$estimatedDate.value? getTodayDate(new Date($estimatedDate.value)):getTodayDate(new Date()),
+          status:`pending`,
+          approvalPercentage:progres,
+          corrections:`${errorSpelling}`,
+          platform:`${$platform.value?$platform.value:platform}`,
+          postUrl:`${$postUrl.value?$postUrl.value:postUrl}`,
+          multimediaUrl:`${$postUrl.value?$postUrl.value:postUrl}}`
         }
         try {
             loader(true);
-            const responsePut:Boolean = await city.updateCity(userCity,dataToEdit);
+            const responsePost:ResponseCreatePost = await post.updatePost(id,dataToCreate);
             loader(false);
-            if(responsePut){
+            if(responsePost){
             window.location.reload();
-            showModal(`${capitalizeFirstLetter(userCity)} edited successfully`);
+            showModal(`${capitalizeFirstLetter(responsePost.title)} updated successfully`);
             }
         } catch (error) {
             loader(false);
             showModal(`${error}`);
         }
+        } catch (error) {
+          showModal(`${error}`)
+        }
+        
         }else{
-        showModal("Please fill in at least one field to edit");
-        throw new Error("Please fill in at least one field to edit");
+        showModal("Please fill in all fields");
+        throw new Error("Please fill in all fields");
         }
     });
 

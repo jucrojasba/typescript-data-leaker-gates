@@ -27,6 +27,18 @@ export interface RequestCreatePost {
     postUrl:                  string;
     multimediaUrl:            string;
 }
+export interface RequestUpdatePost {
+    title:                    string;
+    body:                     string;
+    creationDate:             String;
+    estimatedPublicationDate: String;
+    status:                   string;
+    approvalPercentage:       number;
+    corrections:              string;
+    platform:                 string;
+    postUrl:                  string;
+    multimediaUrl:            string;
+}
 export interface ResponseCreatePost {
     postByUser:               number;
     title:                    string;

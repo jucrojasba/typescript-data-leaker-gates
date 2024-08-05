@@ -2,7 +2,7 @@
     width: 100vw;
     min-height: 100vh;
     height: auto;
-    background: linear-gradient(rgba(255, 255, 255, 0.322), rgba(255, 255, 255, 0.322)),url('../../../assets/images/home-banner.webp');
+    background: linear-gradient(rgba(255, 255, 255, 0.527), rgba(255, 255, 255, 0.527)),url('../../../assets/images/home-banner.webp');
     background-size: cover;
     display: flex;
     justify-content: center;
@@ -33,9 +33,9 @@
 /* Card Styles */
 .post-card{
     width: 320px;
-    height: 200px;
+    height: 250px;
     padding: var(--spacing-3);
-    background-color: rgba(255, 255, 255, 0.194);
+    background-color: rgba(90, 212, 216, 0.194);
     border-radius: var(--spacing-4);
     display: flex;
     flex-direction: column;
