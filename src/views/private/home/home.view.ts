@@ -126,7 +126,7 @@ export function homeView(){
           if(userResponse){
             try {
               loader(true);
-              posts.deletePost(postId);
+              await posts.deletePost(postId);
               loader(false);
               showModal(`This post was deleted succesfully`);
               window.location.reload();

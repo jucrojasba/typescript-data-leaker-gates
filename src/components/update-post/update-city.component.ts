@@ -157,8 +157,8 @@ export function editPost(id:string,title:string,body:string,postUrl:string,platf
         //Data to validate progress
         try {
         const errorSpelling = await spelling.errors($body.value?$body.value:body);
-        let progres= (errorSpelling/$body.value.split(' ').length)*100;
-        errorSpelling ==0? progres=100:progres= (errorSpelling/$body.value.split(' ').length)*100;
+        let progres= (errorSpelling/($body.value?$body.value.split(' ').length:body.split(' ').length))*100;
+        errorSpelling ==0? progres=100:progres;
         //Data to create city
         const dataToCreate:RequestUpdatePost={
           title:`${$title.value?$title.value:title}`,
